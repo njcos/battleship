@@ -19,7 +19,7 @@ test("take damage", () => {
 });
 
 test("placing a ship", () => {
-  expect(userBoard.place("battleship", [2, 2], "vertical")).toEqual([
+  expect(userBoard.place(battleship, [2, 2], "horizontal")).toEqual([
     [2, 2],
     [2, 3],
     [2, 4],

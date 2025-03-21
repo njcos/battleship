@@ -17,9 +17,15 @@ class Board {
   place(ship, local, orientation) {
     let array = [];
     for (let i = 0; i < 4; i++) {
-      array.push([local[0], local[1] + i]);
+      if (orientation === "vertical") {
+        array.push([local[0] + i, local[1]]);
+        this.board[local[0] + i][local[1]] = ship.name;
+      } else {
+        array.push([local[0], local[1] + i]);
+        this.board[local[0]][local[1] + i] = ship.name;
+      }
     }
-    console.log(array);
+    console.log(this.board);
     return array;
   }
 }
