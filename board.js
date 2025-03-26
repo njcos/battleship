@@ -77,8 +77,42 @@ class Board {
         this.board[localY][localX] = ship;
       }
       console.log(this.board);
-      return this.board;
+      return true;
     } else {
+      return false;
+    }
+  }
+
+  randomPlace() {
+    let ships = [
+      this.carrier,
+      this.battleShip,
+      this.cruiser,
+      this.submarine,
+      this.destroyer,
+    ];
+    while (ships.length > 0) {
+      let x = Math.floor(Math.random() * 10);
+      let y = Math.floor(Math.random() * 10);
+      let localY = y;
+      let localX = x;
+      let location = [y, x];
+      const orient = () => Math.random() >= 0.5;
+      console.log(orient());
+      if (this.#isLegalPlace(ships[0], location, "vertical")) {
+        for (let i = 0; i < ships[0].length; i++) {
+          if (orient) {
+            let tempY = y + i;
+            localY = tempY;
+          } else {
+            let tempX = x + i;
+            localX = tempX;
+          }
+          this.board[localY][localX] = ships[0];
+        }
+        ships.shift();
+        console.log(this.board);
+      }
     }
   }
 
