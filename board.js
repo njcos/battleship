@@ -21,12 +21,51 @@ class Board {
     return array;
   }
 
+  #isSpaceOpen(ship, local, orientation) {
+    for (let i = 0; i < ship.length; i++) {
+      if (orientation === "vertical") {
+        if (this.board[local[0] + i][local[1]] instanceof Ship) {
+          console.log("seats taken");
+          return false;
+        }
+      } else if (this.board[local[0]][local[1]] + i instanceof Ship) {
+        console.log("seats taken");
+        return false;
+      }
+    }
+    console.log("all clear");
+    return true;
+  }
+
+  #isOnBoard(ship, local, orientation) {
+    let place = local[0];
+    if (orientation === "horizontal") {
+      place = local[1];
+    }
+    if (ship.length + place > 9) {
+      console.log("ship off board");
+      return false;
+    } else {
+      console.log("checking for open space");
+      return this.#isSpaceOpen(ship, local, orientation);
+    }
+  }
+
+  #isLegalPlace(ship, local, orientation) {
+    if (local[0] >= 0 && local[0] <= 9 && local[1] >= 0 && local[1] <= 9) {
+      return this.#isOnBoard(ship, local, orientation);
+    } else {
+      console.log("picked number not on board");
+      return false;
+    }
+  }
+
   place(ship, local, orientation) {
     let y = local[0];
     let x = local[1];
     let localY = y;
     let localX = x;
-    if (ship.length + y <= 9 && y >= 0 && ship.length + x <= 9 && x >= 0) {
+    if (this.#isLegalPlace(ship, local, orientation)) {
       for (let i = 0; i < ship.length; i++) {
         if (orientation === "vertical") {
           let tempY = y + i;
@@ -37,8 +76,9 @@ class Board {
         }
         this.board[localY][localX] = ship;
       }
+      console.log(this.board);
+      return this.board;
     } else {
-      return "Over";
     }
   }
 
@@ -50,12 +90,20 @@ class Board {
         if (location.sunk) {
           this.shipCount--;
           console.log(location.name + " sunk");
+          this.#allSunk();
         }
         console.log(location);
       }
       this.board[array[0]][array[1]] = "X";
 
       return location;
+    }
+  }
+
+  #allSunk() {
+    if (this.shipCount === 0) {
+      console.log("All Ships Sunk. Game Over!");
+      return true;
     }
   }
 }

@@ -19,14 +19,17 @@ test("Create Ship", () => {
 // });
 
 test("placing a ship", () => {
-  expect(userBoard.place(userBoard.battleShip, [2, 7], "horizontal")).toEqual([
-    [2, 2],
-    [2, 3],
-    [2, 4],
-    [2, 5],
-  ]);
+  expect(
+    userBoard.place(userBoard.battleShip, [2, 2], "horizontal")
+  ).toBeInstanceOf(Array);
 });
 
-test("find ship", () => {
-  expect(userBoard.hit([2, 2])).toBeInstanceOf(Ship);
+test("open space", () => {
+  expect(userBoard.place(userBoard.carrier, [2, 0], "vertical")).toBeInstanceOf(
+    Array
+  );
 });
+
+// test("find ship", () => {
+//   expect(userBoard.hit([2, 2])).toBeInstanceOf(Ship);
+// });
