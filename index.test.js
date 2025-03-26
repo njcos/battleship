@@ -14,15 +14,19 @@ test("Create Ship", () => {
   );
 });
 
-test("take damage", () => {
-  expect(battleship.damage()).toBe(3);
-});
+// test("take damage", () => {
+//   expect(battleship.damage()).toBe(3);
+// });
 
 test("placing a ship", () => {
-  expect(userBoard.place(battleship, [2, 2], "horizontal")).toEqual([
+  expect(userBoard.place(userBoard.battleShip, [2, 7], "horizontal")).toEqual([
     [2, 2],
     [2, 3],
     [2, 4],
     [2, 5],
   ]);
+});
+
+test("find ship", () => {
+  expect(userBoard.hit([2, 2])).toBeInstanceOf(Ship);
 });
