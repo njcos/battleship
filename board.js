@@ -25,15 +25,12 @@ class Board {
     for (let i = 0; i < ship.length; i++) {
       if (orientation === "vertical") {
         if (this.board[local[0] + i][local[1]] instanceof Ship) {
-          console.log("seats taken");
           return false;
         }
       } else if (this.board[local[0]][local[1]] + i instanceof Ship) {
-        console.log("seats taken");
         return false;
       }
     }
-    console.log("all clear");
     return true;
   }
 
@@ -43,10 +40,8 @@ class Board {
       place = local[1];
     }
     if (ship.length + place > 9) {
-      console.log("ship off board");
       return false;
     } else {
-      console.log("checking for open space");
       return this.#isSpaceOpen(ship, local, orientation);
     }
   }
@@ -55,7 +50,6 @@ class Board {
     if (local[0] >= 0 && local[0] <= 9 && local[1] >= 0 && local[1] <= 9) {
       return this.#isOnBoard(ship, local, orientation);
     } else {
-      console.log("picked number not on board");
       return false;
     }
   }
@@ -97,23 +91,30 @@ class Board {
       let localY = y;
       let localX = x;
       let location = [y, x];
-      const orient = () => Math.random() >= 0.5;
-      console.log(orient());
-      if (this.#isLegalPlace(ships[0], location, "vertical")) {
+      const orient = () => {
+        if (Math.random() >= 0.5) {
+          return true;
+        } else {
+          return false;
+        }
+      };
+      let isVertical = orient();
+      console.log(isVertical);
+      if (this.#isLegalPlace(ships[0], location, isVertical)) {
         for (let i = 0; i < ships[0].length; i++) {
-          if (orient) {
+          if (isVertical === true) {
             let tempY = y + i;
             localY = tempY;
-          } else {
+          } else if (isVertical === false) {
             let tempX = x + i;
             localX = tempX;
           }
           this.board[localY][localX] = ships[0];
         }
         ships.shift();
-        console.log(this.board);
       }
     }
+    console.log(this.board);
   }
 
   hit(array) {
@@ -123,10 +124,8 @@ class Board {
         location.damage();
         if (location.sunk) {
           this.shipCount--;
-          console.log(location.name + " sunk");
           this.#allSunk();
         }
-        console.log(location);
       }
       this.board[array[0]][array[1]] = "X";
 
