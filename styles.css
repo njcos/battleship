@@ -5,10 +5,13 @@
 }
 
 .user-board {
-  display: flex;
-  flex-direction: column;
-  width: 100vw;
-  height: 100vh;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+}
+
+.comp-board {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
 }
 
 .row {
@@ -16,12 +19,94 @@
 }
 
 .cell {
+  margin: 1px;
   border: 1px solid green;
-  border-radius: 0.5em;
-  width: 50px;
-  height: 50px;
+  border-radius: 0.2em;
+  height: 3vw;
+  width: 3vw;
+}
+
+.user-cell {
+  margin: 1px;
+  border-radius: 0.2em;
+  background-color: rgb(134, 134, 134);
+  height: 3vw;
+  width: 3vw;
 }
 
 .ship {
   background-color: red;
+}
+
+.computer:hover {
+  background-color: rgb(145, 145, 145);
+}
+
+.miss {
+  background-color: blue;
+}
+
+.hit {
+  background-color: red;
+}
+
+.boards {
+  display: flex;
+  width: 100vw;
+  flex-direction: row;
+  justify-content: space-around;
+  gap: 2em;
+}
+
+.gameover-overlay {
+  visibility: hidden;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  position: absolute;
+  z-index: 10;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(0.1em);
+}
+
+.user-ships {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 2em;
+}
+
+.user-ship {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-ship:hover .user-cell {
+  background-color: black;
+}
+.ships-wrapper {
+  display: flex;
+  flex-direction: row;
+  width: 50vw;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.rotate-button {
+  padding: 0.5em 1em 0.5em 1em;
+  border-radius: 0.4em;
+  border: 1px; solid gray;
+}
+.rotate-button:hover{
+  background-color: rgb(175, 200, 187)
+}
+
+.drag-hover{
+  background-color: green;
+}
+
+.placed-ship{
+  background-color: pink;
 }

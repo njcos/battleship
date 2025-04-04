@@ -8,6 +8,7 @@ class Board {
     this.cruiser = new Ship("Cruiser");
     this.submarine = new Ship("Submarine");
     this.destroyer = new Ship("Destroyer");
+    this.over = false;
   }
 
   #createBoard() {
@@ -136,7 +137,7 @@ class Board {
           this.#allSunk();
         }
       }
-      this.board[array[0]][array[1]] = "X";
+      // this.board[array[0]][array[1]] = "X";
 
       return location;
     }
@@ -144,8 +145,7 @@ class Board {
 
   #allSunk() {
     if (this.shipCount === 0) {
-      console.log("All Ships Sunk. Game Over!");
-      return true;
+      this.over = true;
     }
   }
 }

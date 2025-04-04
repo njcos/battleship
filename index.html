@@ -8,10 +8,25 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <div class="gameover-overlay">
+      <h1 class="message">Game Over</h1>
+    </div>
     <div class="header">
       <h1>Battleship</h1>
     </div>
-    <div class="user-board"></div>
-    <div class="comp-board"></div>
+    <div class="boards">
+      <div class="user-board-wrapper">
+        <h2>User Board</h2>
+        <div class="user-board"></div>
+      </div>
+      <div class="comp-board-wrapper">
+        <h2>Computer Board</h2>
+        <div class="comp-board"></div>
+      </div>
+    </div>
+    <div class="ships-wrapper">
+      <div class="user-ships"></div>
+      <button class="rotate-button">Rotate</button>
+    </div>
   </body>
 </html>
