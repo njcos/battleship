@@ -104,6 +104,9 @@ function renderBoard(player) {
                 placeCell.setAttribute("data-name", shipObject.name);
                 ship.draggable = false;
                 ship.style.visibility = "hidden";
+                if (allShipsPlaced()) {
+                  rotateButton.style.display = "none";
+                }
               }
             }
             console.log(shipForPlacement);
