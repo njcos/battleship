@@ -81,6 +81,11 @@
 .user-ship {
   display: flex;
   flex-direction: column;
+  background-color: green
+  margin-bottom: .2rem;
+}
+.user-ship>.user-cell {
+  margin: .2rem;
 }
 
 .user-ship:hover .user-cell {
@@ -90,7 +95,8 @@
   display: flex;
   flex-direction: row;
   width: 50vw;
-  justify-content: space-around;
+  justify-content: center;
+  gap: 3.5rem;
   align-items: center;
 }
 
@@ -109,4 +115,11 @@
 
 .placed-ship{
   background-color: pink;
+}
+
+.rotated{
+  flex-direction: row;
+}
+.container-rotated{
+  flex-direction: column;
 }

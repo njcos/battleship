@@ -4,6 +4,7 @@ class Ship {
     this.length = this.#findLength(name);
     this.hit = this.length;
     this.sunk = false;
+    this.vertical = true;
   }
 
   #findLength(name) {
