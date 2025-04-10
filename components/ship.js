@@ -30,6 +30,7 @@ class Ship {
     return points;
   }
   #shipSunk() {
+    console.log(this.name + " sunk");
     this.sunk = true;
   }
 }

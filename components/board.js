@@ -4,7 +4,7 @@ class Board {
     this.board = this.#createBoard();
     this.shipCount = 5;
     this.carrier = new Ship("Carrier");
-    this.battleShip = new Ship("Battleship");
+    this.battleship = new Ship("Battleship");
     this.cruiser = new Ship("Cruiser");
     this.submarine = new Ship("Submarine");
     this.destroyer = new Ship("Destroyer");
@@ -92,7 +92,7 @@ class Board {
   randomPlace() {
     let ships = [
       this.carrier,
-      this.battleShip,
+      this.battleship,
       this.cruiser,
       this.submarine,
       this.destroyer,
@@ -127,19 +127,13 @@ class Board {
     }
   }
 
-  hit(array) {
-    let location = this.board[array[0]][array[1]];
-    if (location != "X") {
-      if (location instanceof Ship) {
-        location.damage();
-        if (location.sunk) {
-          this.shipCount--;
-          this.#allSunk();
-        }
-      }
-      // this.board[array[0]][array[1]] = "X";
-
-      return location;
+  hit(name) {
+    let ship = this[name.toLowerCase()];
+    ship.damage();
+    console.log(ship);
+    if (ship.sunk) {
+      this.shipCount--;
+      this.#allSunk();
     }
   }
 

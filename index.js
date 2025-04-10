@@ -12,49 +12,30 @@ playerTwo.board.randomPlace();
 function renderBoard(player) {
   const playerBoard = player.board.board;
   for (let i = 0; i < playerBoard.length; i++) {
-    // const row = document.createElement("div");
-    // row.className = "row";
     let y = i;
     for (let j = 0; j < playerBoard[i].length; j++) {
       const cell = document.createElement("div");
       cell.className = "cell";
-      cell.setAttribute("data-row", [i]);
-      cell.setAttribute("data-col", [j]);
+      cell.setAttribute("data-row", i);
+      cell.setAttribute("data-col", j);
+      if (playerBoard[i][j] instanceof Ship) {
+        cell.setAttribute("data-name", playerBoard[i][j].name);
+        cell.setAttribute("data-length", playerBoard[i][j].length);
+      }
 
       if (player.name === "Computer") {
         cell.classList.add("computer");
-        cell.addEventListener(
-          "click",
-          (e) => {
-            if (playerBoard[i][j] instanceof Ship) {
-              player.board.hit([i, j]);
-              cell.classList.add("hit");
-              if (player.board.over === true) {
-                const overlay = document.querySelector(".gameover-overlay");
-                const message = document.querySelector(".message");
-                message.textContent = `${player.name} loses`;
-                overlay.style.visibility = "visible";
-              }
-            } else {
-              cell.classList.add("miss");
-            }
-          },
-          { once: true }
-        );
       } else {
         //dragover
-
         cell.addEventListener("dragover", (e) => {
           e.preventDefault();
           cell.classList.add("drag-hover");
         });
         //dragleave
-
         cell.addEventListener("dragleave", (e) => {
           cell.classList.remove("drag-hover");
         });
         //drop
-
         cell.addEventListener("drop", (e) => {
           e.preventDefault();
           cell.classList.remove("drag-hover");
@@ -113,7 +94,6 @@ function renderBoard(player) {
           }
         });
       }
-      // row.appendChild(cell);
       if (player.name !== "Computer") {
         userArea.appendChild(cell);
       } else {
@@ -127,7 +107,7 @@ function renderBoard(player) {
   const shipsArea = document.querySelector(".user-ships");
   const ships = [
     playerOne.board.carrier,
-    playerOne.board.battleShip,
+    playerOne.board.battleship,
     playerOne.board.cruiser,
     playerOne.board.submarine,
     playerOne.board.destroyer,
@@ -155,7 +135,6 @@ function renderBoard(player) {
     shipsArea.appendChild(shipCell);
   });
 })();
-
 const rotateButton = document.querySelector(".rotate-button");
 const ships = [
   playerOne.board.carrier,
@@ -164,7 +143,6 @@ const ships = [
   playerOne.board.submarine,
   playerOne.board.destroyer,
 ];
-
 rotateButton.addEventListener("click", () => {
   const shipWrapper = document.querySelector(".user-ships");
   const userShip = document.querySelectorAll(".user-ship");
@@ -191,5 +169,35 @@ function allShipsPlaced() {
   return true;
 }
 
+// cells for selection
+function selectable() {
+  const cells = document.querySelectorAll(".computer");
+  const playerBoard = playerTwo.board.board;
+  cells.forEach((cell) => {
+    cell.addEventListener(
+      "click",
+      (e) => {
+        console.log(e.target.dataset.name);
+        if ("name" in e.target.dataset) {
+          let y = parseInt(e.target.dataset.col);
+          let x = parseInt(e.target.dataset.row);
+          playerTwo.board.hit(e.target.dataset.name);
+          cell.classList.add("hit");
+          if (playerTwo.board.over === true) {
+            const overlay = document.querySelector(".gameover-overlay");
+            const message = document.querySelector(".message");
+            message.textContent = `${playerTwo.name} loses`;
+            overlay.style.visibility = "visible";
+          }
+        } else {
+          cell.classList.add("miss");
+        }
+      },
+      { once: true }
+    );
+  });
+}
+
 renderBoard(playerOne);
 renderBoard(playerTwo);
+selectable();
