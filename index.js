@@ -26,6 +26,7 @@ function renderBoard(player) {
       if (player.name === "Computer") {
         cell.classList.add("computer");
       } else {
+        cell.classList.add("user-board-cell");
         //dragover
         cell.addEventListener("dragover", (e) => {
           e.preventDefault();
@@ -68,9 +69,6 @@ function renderBoard(player) {
                 placeCell.setAttribute("data-name", shipObject.name);
                 ship.draggable = false;
                 ship.style.visibility = "hidden";
-                if (allShipsPlaced()) {
-                  rotateButton.style.display = "none";
-                }
               }
             } else {
               if (parseInt(e.target.dataset.col) + shipObject.length <= 10) {
@@ -85,12 +83,14 @@ function renderBoard(player) {
                 placeCell.setAttribute("data-name", shipObject.name);
                 ship.draggable = false;
                 ship.style.visibility = "hidden";
-                if (allShipsPlaced()) {
-                  rotateButton.style.display = "none";
-                }
               }
             }
-            console.log(shipForPlacement);
+
+            // console.log(shipForPlacement);
+          }
+          if (allShipsPlaced() === true) {
+            rotateButton.style.display = "none";
+            selectable();
           }
         });
       }
@@ -148,13 +148,22 @@ rotateButton.addEventListener("click", () => {
   const userShip = document.querySelectorAll(".user-ship");
   userShip.forEach((ship) => {
     ship.classList.toggle("rotated");
-    for (let i = 0; i < ships.length; i++) {
-      if (ships[i].vertical === true) {
-        ships[i].vertical = false;
-      } else {
-        ships[i].vertical = true;
-      }
+    let shipName = ship.dataset.name.toLowerCase();
+    console.log(shipName);
+
+    if (playerOne.board[shipName].vertical) {
+      playerOne.board[shipName].vertical = false;
+    } else {
+      playerOne.board[shipName].vertical = true;
     }
+
+    // for (let i = 0; i < ships.length; i++) {
+    //   if (ships[i].vertical === true) {
+    //     ships[i].vertical = false;
+    //   } else {
+    //     ships[i].vertical = true;
+    //   }
+    // }
   });
   shipWrapper.classList.toggle("container-rotated");
 });
@@ -166,38 +175,75 @@ function allShipsPlaced() {
       return false;
     }
   }
+  console.log("all placed");
   return true;
 }
 
 // cells for selection
 function selectable() {
+  console.log("selectable called");
   const cells = document.querySelectorAll(".computer");
   const playerBoard = playerTwo.board.board;
   cells.forEach((cell) => {
     cell.addEventListener(
       "click",
       (e) => {
-        console.log(e.target.dataset.name);
         if ("name" in e.target.dataset) {
           let y = parseInt(e.target.dataset.col);
           let x = parseInt(e.target.dataset.row);
           playerTwo.board.hit(e.target.dataset.name);
           cell.classList.add("hit");
           if (playerTwo.board.over === true) {
+            console.log(playerTwo.board.over);
             const overlay = document.querySelector(".gameover-overlay");
             const message = document.querySelector(".message");
             message.textContent = `${playerTwo.name} loses`;
             overlay.style.visibility = "visible";
+            return;
+          } else {
           }
         } else {
           cell.classList.add("miss");
         }
+        compMove();
       },
       { once: true }
     );
   });
 }
 
+function compMove() {
+  let x = Math.floor(Math.random() * 10);
+  let y = Math.floor(Math.random() * 10);
+  let cells = document.querySelectorAll(".user-board-cell");
+
+  for (let cell of cells) {
+    let col = parseInt(cell.dataset.col);
+    let row = parseInt(cell.dataset.row);
+
+    if (col === y && row === x) {
+      if (cell.classList.contains("hit") || cell.classList.contains("miss")) {
+        compMove();
+      } else {
+        if ("name" in cell.dataset) {
+          cell.classList.add("hit");
+          cell.classList.remove("placed-ship");
+          console.log(`${cell.dataset.name} hit`);
+          playerOne.board.hit(cell.dataset.name);
+          if (playerOne.board.over === true) {
+            const overlay = document.querySelector(".gameover-overlay");
+            const message = document.querySelector(".message");
+            message.textContent = `${playerOne.name} loses`;
+            overlay.style.visibility = "visible";
+            return;
+          }
+        } else {
+          cell.classList.add("miss");
+        }
+      }
+    }
+  }
+}
+
 renderBoard(playerOne);
 renderBoard(playerTwo);
-selectable();

@@ -129,10 +129,12 @@ class Board {
 
   hit(name) {
     let ship = this[name.toLowerCase()];
+    console.log(ship);
     ship.damage();
     console.log(ship);
     if (ship.sunk) {
       this.shipCount--;
+
       this.#allSunk();
     }
   }
