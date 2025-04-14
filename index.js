@@ -1,5 +1,6 @@
 import { Player } from "./components/player.js";
 import { Ship } from "./components/ship.js";
+import { Board } from "./components/board.js";
 
 const playerOne = new Player("User", false);
 const playerTwo = new Player("Computer", true);
@@ -7,7 +8,27 @@ const playerTwo = new Player("Computer", true);
 const userArea = document.querySelector(".user-board");
 const compArea = document.querySelector(".comp-board");
 
-playerTwo.board.randomPlace();
+const newGame = document.querySelector(".new-game");
+newGame.addEventListener("click", () => {
+  const userBoard = document.querySelector(".user-board");
+  const compBoard = document.querySelector(".comp-board");
+  const overlay = document.querySelector(".overlay");
+  const userships = document.querySelectorAll(".user-ship");
+  const rotateButton = document.querySelector(".rotate-button");
+  rotateButton.style.display = "flex";
+  for (let i = 0; i < userships.length; i++) {
+    userships[i].style.visibility = "visible";
+    userships[i].draggable = "true";
+  }
+  userBoard.replaceChildren();
+  compBoard.replaceChildren();
+  playerOne.board = new Board();
+  playerTwo.board = new Board();
+  overlay.style.visibility = "hidden";
+  renderBoard(playerOne);
+  playerTwo.board.randomPlace();
+  renderBoard(playerTwo);
+});
 
 function renderBoard(player) {
   const playerBoard = player.board.board;
@@ -143,27 +164,21 @@ const ships = [
   playerOne.board.submarine,
   playerOne.board.destroyer,
 ];
+
 rotateButton.addEventListener("click", () => {
   const shipWrapper = document.querySelector(".user-ships");
   const userShip = document.querySelectorAll(".user-ship");
   userShip.forEach((ship) => {
     ship.classList.toggle("rotated");
     let shipName = ship.dataset.name.toLowerCase();
-    console.log(shipName);
+    console.log(playerOne.board[shipName]);
 
-    if (playerOne.board[shipName].vertical) {
+    if (playerOne.board[shipName].vertical === true) {
+      console.log("it's true");
       playerOne.board[shipName].vertical = false;
     } else {
       playerOne.board[shipName].vertical = true;
     }
-
-    // for (let i = 0; i < ships.length; i++) {
-    //   if (ships[i].vertical === true) {
-    //     ships[i].vertical = false;
-    //   } else {
-    //     ships[i].vertical = true;
-    //   }
-    // }
   });
   shipWrapper.classList.toggle("container-rotated");
 });
@@ -195,8 +210,9 @@ function selectable() {
           cell.classList.add("hit");
           if (playerTwo.board.over === true) {
             console.log(playerTwo.board.over);
-            const overlay = document.querySelector(".gameover-overlay");
+            const overlay = document.querySelector(".overlay");
             const message = document.querySelector(".message");
+            message.style.display = "flex";
             message.textContent = `${playerTwo.name} loses`;
             overlay.style.visibility = "visible";
             return;
@@ -231,8 +247,9 @@ function compMove() {
           console.log(`${cell.dataset.name} hit`);
           playerOne.board.hit(cell.dataset.name);
           if (playerOne.board.over === true) {
-            const overlay = document.querySelector(".gameover-overlay");
+            const overlay = document.querySelector(".overlay");
             const message = document.querySelector(".message");
+            message.style.display = "flex";
             message.textContent = `${playerOne.name} loses`;
             overlay.style.visibility = "visible";
             return;
@@ -244,6 +261,3 @@ function compMove() {
     }
   }
 }
-
-renderBoard(playerOne);
-renderBoard(playerTwo);

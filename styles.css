@@ -58,8 +58,8 @@
   gap: 2em;
 }
 
-.gameover-overlay {
-  visibility: hidden;
+.overlay {
+  display: flex;
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -81,11 +81,10 @@
 .user-ship {
   display: flex;
   flex-direction: column;
-  background-color: green
-  margin-bottom: .2rem;
+  margin-bottom: 0.2rem;
 }
-.user-ship>.user-cell {
-  margin: .2rem;
+.user-ship > .user-cell {
+  margin: 0.2rem;
 }
 
 .user-ship:hover .user-cell {
@@ -103,23 +102,27 @@
 .rotate-button {
   padding: 0.5em 1em 0.5em 1em;
   border-radius: 0.4em;
-  border: 1px; solid gray;
+  /* border: 1px; solid gray; */
 }
-.rotate-button:hover{
-  background-color: rgb(175, 200, 187)
+.rotate-button:hover {
+  background-color: rgb(175, 200, 187);
 }
 
-.drag-hover{
+.drag-hover {
   background-color: green;
 }
 
-.placed-ship{
+.placed-ship {
   background-color: pink;
 }
 
-.rotated{
+.rotated {
   flex-direction: row;
 }
-.container-rotated{
+.container-rotated {
   flex-direction: column;
+}
+
+.message {
+  display: none;
 }
