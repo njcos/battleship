@@ -22,12 +22,15 @@ newGame.addEventListener("click", () => {
   }
   userBoard.replaceChildren();
   compBoard.replaceChildren();
-  playerOne.board = new Board();
-  playerTwo.board = new Board();
+  playerOne.board.resetBoard();
+  playerTwo.board.resetBoard();
   overlay.style.visibility = "hidden";
+
   renderBoard(playerOne);
   playerTwo.board.randomPlace();
   renderBoard(playerTwo);
+  console.log(playerOne.board);
+  console.log(playerTwo.board);
 });
 
 function renderBoard(player) {

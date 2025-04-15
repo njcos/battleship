@@ -19,7 +19,7 @@ class Board {
         array[i].push(null);
       }
     }
-    console.log(array);
+    // console.log(array);
     return array;
   }
 
@@ -143,6 +143,21 @@ class Board {
     if (this.shipCount === 0) {
       this.over = true;
     }
+  }
+  resetBoard() {
+    this.board = this.#createBoard();
+    this.shipCount = 5;
+    this.carrier.hit = 5;
+    this.battleship.hit = 4;
+    this.cruiser.hit = 3;
+    this.submarine.hit = 3;
+    this.destroyer.hit = 2;
+    this.carrier.sunk = false;
+    this.battleship.sunk = false;
+    this.cruiser.sunk = false;
+    this.submarine.sunk = false;
+    this.destroyer.sunk = false;
+    this.over = false;
   }
 }
 
